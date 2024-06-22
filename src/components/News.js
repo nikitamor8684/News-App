@@ -28,15 +28,17 @@ category:PropTypes.string
         document.title=`${this.capitalizefirstletter(this.props.category)}-NewsMonkey`;
     }
 async updateNews(){
-    const url=`https://newsapi.org/v2/top-headlines?country=in&apiKey=d6795c990e0c40c1949207a23e0e2125&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+    console.log(this.props.category);
+    const url=`https://newsapi.org/v2/top-headlines?category=${this.props.category}&country=in&apiKey=d6795c990e0c40c1949207a23e0e2125&page=${this.state.page}&pageSize=${this.props.pageSize}`;
     this.setState({loading:true});
     let data= await fetch(url);
+    console.log(url);
     let parseddata=await data.json()
     console.log(parseddata);
     this.setState({articles:parseddata.articles,totalResults:parseddata.totalResults,loading:false})
 }
    async componentDidMount(){
-    let url=`https://newsapi.org/v2/top-headlines?category=${this.props.category} &apiKey=d6795c990e0c40c1949207a23e0e2125&page=1&pageSize=${this.props.pageSize}`;
+    let url=`https://newsapi.org/v2/top-headlines?category=${this.props.category}&apiKey=d6795c990e0c40c1949207a23e0e2125&page=1&pageSize=${this.props.pageSize}`;
     this.setState({loading:true});
     let data= await fetch(url);
     let parseddata=await data.json()
@@ -91,8 +93,8 @@ this.updateNews();
             
                </div>
                <div className="container d-flex justify-content-between">
-               <button disabled={this.state.page<=1} type="button" className="btn btn-dark" onclick={this.handlepreviousclick()}>  &larr; previous</button>
-               <button disabled={this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)} type="button" className="btn btn-dark" onClick={this.handlenextclick()}>Next&rarr;</button>
+               <button disabled={this.state.page<=1} type="button" className="btn btn-dark" onClick={() =>this.handlepreviousclick()}>  &larr; previous</button>
+               <button disabled={this.state.page+1>Math.ceil(this.state.totalResults/this.props.pageSize)} type="button" className="btn btn-dark" onClick={() =>this.handlepreviousclick()}>Next&rarr;</button>
                 </div>
             </div>
         
